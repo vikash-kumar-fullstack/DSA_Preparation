@@ -1,0 +1,221 @@
+TOPIC: SLIDING WINDOW
+
+---
+
+1. SLIDING WINDOW PATTERN
+
+---
+
+Used when problem involves:
+
+* subarray
+* substring
+* contiguous elements
+
+Goal:
+Avoid recalculating values for every window.
+
+Idea:
+
+new_window = previous_window
+- element leaving
++ element entering
+
+This reduces time complexity significantly.
+
+---
+
+2. MAXIMUM SUM SUBARRAY OF SIZE K
+
+---
+
+Problem:
+Find maximum sum of any subarray of size k.
+
+Example:
+nums = [2,1,5,1,3,2]
+k = 3
+
+Subarrays:
+[2,1,5] = 8
+[1,5,1] = 7
+[5,1,3] = 9
+[1,3,2] = 6
+
+Answer = 9
+
+---
+
+## BRUTE FORCE
+
+Calculate every subarray sum.
+
+for each i
+sum next k elements
+
+Time Complexity: O(n*k)
+
+---
+
+## OPTIMAL SLIDING WINDOW
+
+Compute first window sum.
+
+Then slide window:
+
+windowSum += nums[i]
+windowSum -= nums[i-k]
+
+C++ Code:
+
+int maxSumSubarray(vector<int>& nums, int k) {
+
+```
+int windowSum = 0;
+
+for(int i=0;i<k;i++)
+    windowSum += nums[i];
+
+int maxSum = windowSum;
+
+for(int i=k;i<nums.size();i++){
+
+    windowSum += nums[i];
+    windowSum -= nums[i-k];
+
+    maxSum = max(maxSum, windowSum);
+}
+
+return maxSum;
+```
+
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+---
+
+3. LONGEST SUBSTRING WITHOUT REPEATING CHARACTERS
+
+---
+
+Problem:
+Find longest substring with unique characters.
+
+Example:
+
+s = "abcabcbb"
+
+Answer = 3 ("abc")
+
+---
+
+## SLIDING WINDOW APPROACH
+
+Use:
+
+left pointer
+right pointer
+hash set
+
+If duplicate found:
+shrink window from left.
+
+C++ Code:
+
+int lengthOfLongestSubstring(string s){
+
+```
+unordered_set<char> st;
+
+int left = 0;
+int ans = 0;
+
+for(int right=0; right<s.length(); right++){
+
+    while(st.find(s[right]) != st.end()){
+        st.erase(s[left]);
+        left++;
+    }
+
+    st.insert(s[right]);
+
+    ans = max(ans, right-left+1);
+}
+
+return ans;
+```
+
+}
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+---
+
+4. BEST TIME TO BUY AND SELL STOCK
+
+---
+
+Problem:
+Find maximum profit from one transaction.
+
+Example:
+
+prices = [7,1,5,3,6,4]
+
+Buy = 1
+Sell = 6
+
+Profit = 5
+
+---
+
+## OPTIMAL GREEDY APPROACH
+
+Track minimum price so far.
+
+profit = current price - minimum price
+
+C++ Code:
+
+int maxProfit(vector<int>& prices){
+
+```
+int mn = prices[0];
+int profit = 0;
+
+for(int i=1;i<prices.size();i++){
+
+    mn = min(mn, prices[i]);
+
+    profit = max(profit, prices[i]-mn);
+}
+
+return profit;
+```
+
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+---
+ SUMMARY
+
+Pattern Learned:
+Sliding Window
+
+Problems Solved:
+
+1. Maximum Sum Subarray of Size K
+2. Longest Substring Without Repeating Characters
+3. Best Time to Buy and Sell Stock
+
+Key Concepts:
+
+* Window expansion
+* Window shrinking
+* Tracking min/max values
+* Greedy observation

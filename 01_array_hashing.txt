@@ -1,0 +1,282 @@
+DSA INTERVIEW NOTES — DAY 1
+TOPIC: ARRAYS + HASHING
+
+1. TWO SUM
+
+
+Problem:
+Find indices of two numbers such that:
+
+nums[i] + nums[j] = target
+
+Example:
+nums = [2,7,11,15]
+target = 9
+
+Output:
+[0,1]
+
+---
+
+## BRUTE FORCE APPROACH
+
+Check every pair of elements.
+
+Pseudo Code:
+
+for(i=0;i<n;i++)
+for(j=i+1;j<n;j++)
+if(nums[i] + nums[j] == target)
+return {i,j}
+
+Time Complexity: O(n²)
+Space Complexity: O(1)
+
+---
+
+## OPTIMAL SOLUTION (HASHMAP)
+
+Idea:
+Store numbers in a hashmap and check if the complement exists.
+
+complement = target - nums[i]
+
+If complement already exists in the map,
+we found the answer.
+
+Code (C++):
+
+vector<int> twoSum(vector<int>& nums, int target) {
+
+```
+unordered_map<int,int> mp;
+
+for(int i=0;i<nums.size();i++){
+
+    int other = target - nums[i];
+
+    if(mp.find(other) != mp.end()){
+        return {mp[other], i};
+    }
+
+    mp[nums[i]] = i;
+}
+
+return {};
+```
+
+}
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+---
+
+## FOLLOW-UP: SORTED ARRAY
+
+If the array is sorted we can use TWO POINTERS.
+
+left = 0
+right = n-1
+
+Algorithm:
+
+while(left < right)
+
+```
+sum = nums[left] + nums[right]
+
+if sum == target
+    return
+
+if sum < target
+    left++
+
+if sum > target
+    right--
+```
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+---
+
+2. CONTAINS DUPLICATE
+
+---
+
+Problem:
+Return true if any element appears more than once.
+
+Examples:
+
+[1,2,3,1] → true
+[1,2,3,4] → false
+
+---
+
+## OPTIMAL SOLUTION (HASHSET)
+
+bool containsDuplicate(vector<int>& nums) {
+
+```
+unordered_set<int> st;
+
+for(int x : nums){
+
+    if(st.find(x) != st.end())
+        return true;
+
+    st.insert(x);
+}
+
+return false;
+```
+
+}
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+---
+
+## TRICK SOLUTION
+
+Set automatically removes duplicates.
+
+bool containsDuplicate(vector<int>& nums) {
+
+```
+unordered_set<int> st(nums.begin(), nums.end());
+
+return st.size() != nums.size();
+```
+
+}
+
+---
+
+## WITHOUT EXTRA SPACE
+
+Sort the array.
+
+sort(nums.begin(), nums.end());
+
+for(int i=1;i<nums.size();i++)
+if(nums[i] == nums[i-1])
+return true
+
+Time Complexity: O(n log n)
+
+---
+
+3. VALID ANAGRAM
+
+---
+
+Problem:
+Two strings are anagrams if they contain the same characters
+with the same frequency.
+
+Example:
+
+s = "anagram"
+t = "nagaram"
+
+Output = true
+
+---
+
+## HASHMAP SOLUTION
+
+bool isAnagram(string s, string t) {
+
+```
+if(s.length() != t.length())
+    return false;
+
+unordered_map<char,int> mp;
+
+for(char c : s)
+    mp[c]++;
+
+for(char c : t)
+    mp[c]--;
+
+for(auto x : mp)
+    if(x.second != 0)
+        return false;
+
+return true;
+```
+
+}
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+---
+
+## OPTIMAL TRICK (FREQUENCY ARRAY)
+
+If characters are only a-z.
+
+bool isAnagram(string s, string t) {
+
+```
+if(s.length() != t.length())
+    return false;
+
+int freq[26] = {0};
+
+for(char c : s)
+    freq[c-'a']++;
+
+for(char c : t)
+    freq[c-'a']--;
+
+for(int i=0;i<26;i++)
+    if(freq[i] != 0)
+        return false;
+
+return true;
+```
+
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+---
+
+## KEY PATTERN LEARNED TODAY
+
+HASHING
+
+Used when we need fast lookup.
+
+Common Structures:
+
+unordered_map
+unordered_set
+
+Typical Use Cases:
+
+* Detect duplicates
+* Frequency counting
+* Complement search
+* Fast element lookup
+
+---
+
+## INTERVIEW COMMUNICATION TIP
+
+Always explain your thought process like this:
+
+"First I will think about brute force.
+But brute force takes O(n²).
+
+We can optimize it using hashing
+which reduces time complexity to O(n)."
+
+This communication style is important in interviews.
