@@ -1,0 +1,25 @@
+DSA INTERVIEW NOTES — DAY 4
+TOPIC: TWO POINTERS
+
+---
+
+1. TWO POINTER PATTERN
+
+---
+
+Used when:
+
+* array is sorted
+* pair or triplet problems
+* minimize or maximize distance
+* remove duplicates
+* container / area problems
+
+General idea:
+
+left pointer  -> start
+right pointer -> end
+
+Move pointers depending on conditions.
+
+---
