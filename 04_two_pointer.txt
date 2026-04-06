@@ -147,3 +147,110 @@ return maxArea;
 
 Time Complexity: O(n)
 Space Complexity: O(1)
+
+---
+
+4. 3SUM
+
+---
+
+Problem:
+Find all unique triplets such that:
+
+nums[i] + nums[j] + nums[k] = 0
+
+Example:
+
+nums = [-1,0,1,2,-1,-4]
+
+Output:
+
+[-1,-1,2]
+[-1,0,1]
+
+---
+
+## KEY IDEA
+
+1. Sort the array.
+2. Fix one element.
+3. Use two pointers to find remaining two numbers.
+
+Also skip duplicates to avoid repeating triplets.
+
+---
+
+## C++ CODE
+
+vector<vector<int>> threeSum(vector<int>& nums){
+
+```
+vector<vector<int>> ans;
+
+sort(nums.begin(), nums.end());
+
+for(int i=0;i<nums.size();i++){
+
+    if(i>0 && nums[i]==nums[i-1])
+        continue;
+
+    int left = i+1;
+    int right = nums.size()-1;
+
+    while(left < right){
+
+        int sum = nums[i] + nums[left] + nums[right];
+
+        if(sum == 0){
+
+            ans.push_back({nums[i], nums[left], nums[right]});
+
+            while(left<right && nums[left]==nums[left+1])
+                left++;
+
+            while(left<right && nums[right]==nums[right-1])
+                right--;
+
+            left++;
+            right--;
+        }
+
+        else if(sum < 0)
+            left++;
+
+        else
+            right--;
+    }
+}
+
+return ans;
+```
+
+}
+
+Time Complexity: O(n²)
+Space Complexity: O(1) (excluding output)
+
+---
+
+## DAY 4 SUMMARY
+
+Pattern Learned:
+Two Pointers
+
+Problems Solved:
+
+1. Two Sum II
+2. Container With Most Water
+3. 3Sum
+
+Key Concepts:
+
+* Move pointers based on sorted order
+* Smaller element limits container area
+* Skip duplicates in triplet problems
+* Two pointers reduce nested loops
+
+---
+
+## END OF DAY 4
