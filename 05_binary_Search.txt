@@ -1,0 +1,28 @@
+DSA INTERVIEW NOTES — DAY 5
+TOPIC: BINARY SEARCH
+
+---
+
+1. BINARY SEARCH PATTERN
+
+---
+
+Binary Search is used when:
+
+* Array is sorted
+* Searching for an element or index
+* Search space can be divided into two halves
+* Time complexity requirement is O(log n)
+
+Basic Idea:
+
+Divide the search space in half each iteration.
+
+left  -> start index
+right -> end index
+
+mid = left + (right-left)/2
+
+Compare nums[mid] with target and shrink the search space.
+
+---
