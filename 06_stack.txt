@@ -1,0 +1,25 @@
+DSA INTERVIEW NOTES — DAY 6
+TOPIC: STACK
+
+---
+
+1. STACK PATTERN
+
+---
+
+Stack follows LIFO (Last In First Out).
+
+Operations:
+
+push()
+pop()
+top()
+
+Used when:
+
+* Next greater/smaller element
+* Balanced parentheses
+* Monotonic behavior
+* Processing elements from right
+
+---
