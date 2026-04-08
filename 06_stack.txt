@@ -89,3 +89,57 @@ Time Complexity: O(n)
 Space Complexity: O(n)
 
 ---
+
+3. NEXT GREATER ELEMENT
+
+---
+
+Problem:
+Find next greater element on right side.
+
+---
+
+## APPROACH (MONOTONIC STACK)
+
+Traverse from right → left.
+
+Steps:
+
+1. Remove smaller elements from stack
+2. Top gives next greater
+3. If empty → -1
+4. Push current element
+
+---
+
+## C++ CODE
+
+vector<int> nextGreaterElement(vector<int>& nums){
+
+```
+int n = nums.size();
+vector<int> ans(n);
+stack<int> st;
+
+for(int i=n-1;i>=0;i--){
+
+    while(!st.empty() && st.top() <= nums[i])
+        st.pop();
+
+    if(st.empty())
+        ans[i] = -1;
+    else
+        ans[i] = st.top();
+
+    st.push(nums[i]);
+}
+
+return ans;
+```
+
+}
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+---
