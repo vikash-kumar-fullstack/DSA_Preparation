@@ -270,6 +270,4 @@ Key Concepts:
 * Binary search on slopes
 * Avoid integer overflow in mid calculation
 
----
-
 ## END OF DAY 5
