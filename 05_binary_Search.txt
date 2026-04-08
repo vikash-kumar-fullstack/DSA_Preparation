@@ -26,3 +26,71 @@ mid = left + (right-left)/2
 Compare nums[mid] with target and shrink the search space.
 
 ---
+
+2. CLASSIC BINARY SEARCH
+
+---
+
+Problem:
+Given a sorted array nums and a target value,
+return the index if target is found,
+otherwise return -1.
+
+Example:
+
+nums = [-1,0,3,5,9,12]
+target = 9
+
+Output:
+4
+
+---
+
+## ALGORITHM
+
+1. Initialize left = 0, right = n-1
+2. Compute mid
+3. Compare nums[mid] with target
+
+if nums[mid] == target
+return mid
+
+if nums[mid] < target
+search right half
+
+if nums[mid] > target
+search left half
+
+---
+
+## C++ CODE
+
+int search(vector<int>& nums, int target){
+
+```
+int left = 0;
+int right = nums.size() - 1;
+
+while(left <= right){
+
+    int mid = left + (right-left)/2;
+
+    if(nums[mid] == target)
+        return mid;
+
+    else if(nums[mid] < target)
+        left = mid + 1;
+
+    else
+        right = mid - 1;
+}
+
+return -1;
+```
+
+}
+
+Time Complexity: O(log n)
+Space Complexity: O(1)
+
+---
