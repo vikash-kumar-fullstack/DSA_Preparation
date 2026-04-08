@@ -143,3 +143,81 @@ Time Complexity: O(n)
 Space Complexity: O(n)
 
 ---
+
+4. DAILY TEMPERATURES
+
+---
+
+Problem:
+Find how many days until a warmer temperature.
+
+---
+
+## APPROACH
+
+Traverse from right → left.
+
+Stack stores indices.
+
+Steps:
+
+1. Remove smaller or equal temperatures
+2. If stack empty → 0
+3. Else → distance = st.top() - i
+4. Push current index
+
+---
+
+## C++ CODE
+
+vector<int> dailyTemperatures(vector<int>& temp){
+
+```
+int n = temp.size();
+vector<int> ans(n);
+stack<int> st;
+
+for(int i=n-1;i>=0;i--){
+
+    while(!st.empty() && temp[i] >= temp[st.top()])
+        st.pop();
+
+    if(st.empty())
+        ans[i] = 0;
+    else
+        ans[i] = st.top() - i;
+
+    st.push(i);
+}
+
+return ans;
+```
+
+}
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+---
+
+## DAY 6 SUMMARY
+
+Pattern Learned:
+Stack
+
+Problems Solved:
+
+1. Valid Parentheses
+2. Next Greater Element
+3. Daily Temperatures
+
+Key Concepts:
+
+* Monotonic Stack
+* Right-to-left traversal
+* Stack stores useful candidates
+* Each element pushed/popped once
+
+---
+
+## END OF DAY 6
