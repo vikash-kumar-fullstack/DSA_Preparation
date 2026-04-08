@@ -171,3 +171,105 @@ return -1;
 Time Complexity: O(log n)
 
 ---
+
+
+4. FIND PEAK ELEMENT
+
+---
+
+Problem:
+Find an index where the element is greater
+than its neighbors.
+
+Example:
+
+nums = [1,2,3,1]
+
+Output:
+2
+
+---
+
+## KEY OBSERVATION
+
+If nums[mid] < nums[mid+1]
+peak must exist on the right side.
+
+If nums[mid] > nums[mid+1]
+peak exists on the left side.
+
+Binary search works because the array
+always contains a peak.
+
+---
+
+## C++ CODE
+
+int findPeakElement(vector<int>& nums){
+
+```
+int left = 0;
+int right = nums.size()-1;
+
+while(left < right){
+
+    int mid = left + (right-left)/2;
+
+    if(nums[mid] < nums[mid+1])
+        left = mid + 1;
+    else
+        right = mid;
+}
+
+return left;
+```
+
+}
+
+Time Complexity: O(log n)
+Space Complexity: O(1)
+
+---
+
+## IMPORTANT BINARY SEARCH RULES
+
+1. Always calculate mid as:
+
+mid = left + (right-left)/2
+
+to avoid integer overflow.
+
+2. Loop conditions:
+
+while(left <= right) -> exact search
+
+while(left < right) -> search space narrowing problems
+
+3. Binary search works when:
+
+* array is sorted
+* search space can be divided
+
+---
+
+## DAY 5 SUMMARY
+
+Pattern Learned:
+Binary Search
+
+Problems Solved:
+
+1. Classic Binary Search
+2. Search in Rotated Sorted Array
+3. Find Peak Element
+
+Key Concepts:
+
+* Divide search space in half
+* Detect sorted half in rotated arrays
+* Binary search on slopes
+* Avoid integer overflow in mid calculation
+
+---
+
+## END OF DAY 5
