@@ -58,3 +58,86 @@ WHEN LINKED LIST IS USED
 • Graph adjacency list representation
 
 ---
+
+2. REVERSE LINKED LIST
+
+---
+
+Problem:
+Reverse a singly linked list.
+
+Example:
+
+1 → 2 → 3 → 4 → 5
+
+Output:
+
+5 → 4 → 3 → 2 → 1
+
+---
+
+PATTERN
+
+Pointer Manipulation
+
+We reverse the direction of next pointers.
+
+---
+
+APPROACH
+
+Use three pointers:
+
+prev
+curr
+next
+
+Steps:
+
+1. Store next node
+2. Reverse pointer
+3. Move pointers forward
+
+---
+
+ALGORITHM
+
+prev = NULL
+curr = head
+
+while(curr != NULL)
+
+    next = curr->next
+    curr->next = prev
+
+    prev = curr
+    curr = next
+
+Return prev
+
+---
+
+C++ CODE
+
+ListNode* reverseList(ListNode* head){
+
+    ListNode* prev = NULL;
+    ListNode* curr = head;
+
+    while(curr != NULL){
+
+        ListNode* next = curr->next;
+
+        curr->next = prev;
+
+        prev = curr;
+        curr = next;
+    }
+
+    return prev;
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+---
