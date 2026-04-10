@@ -1,0 +1,60 @@
+DSA INTERVIEW NOTES — DAY 7
+TOPIC: LINKED LIST
+
+---
+
+1. LINKED LIST BASICS
+
+---
+
+A Linked List is a linear data structure where elements are connected using pointers instead of contiguous memory.
+
+Each node contains:
+
+data
+pointer to next node
+
+Structure:
+
+struct ListNode{
+    int val;
+    ListNode* next;
+};
+
+Example:
+
+1 → 2 → 3 → 4 → 5 → NULL
+
+Unlike arrays:
+
+• Memory is not contiguous
+• Nodes are connected through pointers
+• Dynamic size
+
+---
+
+COMMON OPERATIONS
+
+Traversal
+Insertion
+Deletion
+Pointer manipulation
+
+Traversal Example:
+
+ListNode* temp = head;
+
+while(temp != NULL){
+    temp = temp->next;
+}
+
+---
+
+WHEN LINKED LIST IS USED
+
+• Dynamic memory allocation
+• Frequent insert/delete operations
+• Implement stacks and queues
+• Graph adjacency list representation
+
+---
