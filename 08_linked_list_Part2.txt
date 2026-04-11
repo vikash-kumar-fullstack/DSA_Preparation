@@ -1,0 +1,119 @@
+DSA INTERVIEW NOTES — DAY 8
+TOPIC: ADVANCED LINKED LIST
+
+--------------------------------------------------
+
+INTRODUCTION
+
+In advanced linked list problems, the main difficulty is not traversal,
+but pointer manipulation and recognizing patterns.
+
+Most interview questions combine these fundamental techniques:
+
+1. Fast–Slow Pointer Technique
+2. Two Pointer Gap Technique
+3. Reversing a Linked List
+4. Splitting a Linked List
+5. Merging Linked Lists
+
+These patterns appear repeatedly across multiple interview problems.
+
+--------------------------------------------------
+
+1. REMOVE NTH NODE FROM END
+
+Problem
+
+Given the head of a linked list, remove the nth node from the end
+and return the modified list.
+
+Example
+
+1 → 2 → 3 → 4 → 5
+n = 2
+
+Output
+
+1 → 2 → 3 → 5
+
+
+--------------------------------------------------
+
+CORE IDEA
+
+The key challenge is that the node to remove is counted from the end,
+but linked lists can only be traversed from the start.
+
+A naive approach is:
+
+1. Count total nodes
+2. Compute position from start
+3. Remove that node
+
+However, this requires two traversals.
+
+Interviewers prefer a one-pass solution.
+
+--------------------------------------------------
+
+TWO POINTER GAP TECHNIQUE
+
+We maintain two pointers:
+
+slow
+fast
+
+The idea is to maintain a fixed distance between them.
+
+Steps:
+
+1. Move the fast pointer (n+1) steps ahead.
+2. Then move both slow and fast together.
+3. When fast reaches NULL,
+   slow will be positioned just before the node to delete.
+
+--------------------------------------------------
+
+WHY n+1 STEPS?
+
+We introduce a dummy node before the head.
+
+dummy → 1 → 2 → 3 → 4 → 5
+
+If fast moves n+1 steps ahead, the gap between slow and fast
+becomes exactly n nodes.
+
+So when fast reaches the end of the list,
+slow will be positioned right before the node that must be deleted.
+
+This allows deletion using:
+
+slow->next = slow->next->next
+
+--------------------------------------------------
+
+C++ CODE
+
+ListNode* removeNthFromEnd(ListNode* head, int n){
+
+    ListNode dummy(0);
+    dummy.next = head;
+
+    ListNode* slow = &dummy;
+    ListNode* fast = &dummy;
+
+    for(int i = 0; i <= n; i++)
+        fast = fast->next;
+
+    while(fast != NULL){
+        slow = slow->next;
+        fast = fast->next;
+    }
+
+    slow->next = slow->next->next;
+
+    return dummy.next;
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
