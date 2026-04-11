@@ -314,3 +314,77 @@ Because copied nodes always follow their originals.
 Finally separate the two lists.
 
 --------------------------------------------------
+
+C++ CODE
+
+Node* copyRandomList(Node* head){
+
+    if(head == NULL)
+        return NULL;
+
+    Node* temp = head;
+
+    while(temp){
+        Node* copy = new Node(temp->val);
+        copy->next = temp->next;
+        temp->next = copy;
+        temp = copy->next;
+    }
+
+    temp = head;
+
+    while(temp){
+        if(temp->random)
+            temp->next->random = temp->random->next;
+        temp = temp->next->next;
+    }
+
+    temp = head;
+    Node* newHead = head->next;
+    Node* copy = newHead;
+
+    while(temp){
+
+        temp->next = temp->next->next;
+
+        if(copy->next)
+            copy->next = copy->next->next;
+
+        temp = temp->next;
+        copy = copy->next;
+    }
+
+    return newHead;
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Linked List Interweaving Technique
+
+Used when cloned nodes must be linked
+without using additional memory.
+
+--------------------------------------------------
+
+DAY 9 SUMMARY
+
+Problems Solved
+
+1. Intersection of Two Linked Lists
+2. Add Two Numbers
+3. Copy List with Random Pointer
+
+Patterns Learned
+
+Two Pointer Distance Equalization
+Linked List Arithmetic Simulation
+Random Pointer Cloning Trick
+
+--------------------------------------------------
+
+END OF DAY 9
