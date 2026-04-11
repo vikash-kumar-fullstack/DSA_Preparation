@@ -122,3 +122,67 @@ This technique aligns two pointers by equalizing
 the total distance traveled.
 
 --------------------------------------------------
+
+2. ADD TWO NUMBERS
+
+Problem
+
+Numbers are stored in reverse order in linked lists.
+
+Example
+
+l1 = 2 → 4 → 3
+l2 = 5 → 6 → 4
+
+Representing numbers:
+
+342
+465
+
+Output
+
+7 → 0 → 8
+
+Representing:
+
+807
+
+--------------------------------------------------
+
+WHY DIGITS ARE STORED IN REVERSE ORDER
+
+In arithmetic addition we start from the rightmost digit.
+
+Example
+
+342
+465
+---
+
+We add:
+
+2 + 5
+4 + 6
+3 + 4
+
+However, singly linked lists only allow forward traversal.
+
+Therefore storing numbers in reverse order allows
+digit-by-digit addition naturally while traversing.
+
+--------------------------------------------------
+
+ALGORITHM
+
+Maintain a carry value.
+
+Traverse both lists simultaneously.
+
+At each step:
+
+1. Add values of current nodes
+2. Add carry
+3. Store (sum % 10) in new node
+4. Update carry = sum / 10
+
+Continue until both lists and carry are exhausted.
