@@ -241,3 +241,102 @@ Time Complexity: O(n)
 Space Complexity: O(1)
 
 --------------------------------------------------
+
+3. PALINDROME LINKED LIST
+
+Problem
+
+Determine whether a linked list is a palindrome.
+
+Example
+
+1 → 2 → 2 → 1
+
+Output
+
+true
+
+--------------------------------------------------
+
+KEY IDEA
+
+A palindrome reads the same forward and backward.
+
+In arrays, this is easy because we can access elements from both ends.
+
+However, linked lists allow traversal only from the front.
+
+Therefore, we transform the problem.
+
+--------------------------------------------------
+
+ALGORITHM
+
+1. Find the middle of the list using fast and slow pointers.
+
+2. Reverse the second half of the list.
+
+3. Compare the first half and reversed second half.
+
+If all nodes match, the list is a palindrome.
+
+--------------------------------------------------
+
+WHY REVERSE THE SECOND HALF?
+
+After reversing the second half:
+
+Example
+
+1 → 2 → 2 → 1
+
+Middle found at second 2
+
+Reverse second half:
+
+1 → 2    1 → 2
+
+Now the two halves can be compared easily.
+
+--------------------------------------------------
+
+C++ CODE
+
+bool isPalindrome(ListNode* head){
+
+    ListNode* slow = head;
+    ListNode* fast = head;
+
+    while(fast != NULL && fast->next != NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    ListNode* prev = NULL;
+
+    while(slow != NULL){
+        ListNode* next = slow->next;
+        slow->next = prev;
+        prev = slow;
+        slow = next;
+    }
+
+    ListNode* left = head;
+    ListNode* right = prev;
+
+    while(right != NULL){
+
+        if(left->val != right->val)
+            return false;
+
+        left = left->next;
+        right = right->next;
+    }
+
+    return true;
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+--------------------------------------------------
