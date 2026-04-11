@@ -233,3 +233,84 @@ Digit-by-digit simulation
 Carry propagation across nodes.
 
 --------------------------------------------------
+
+3. COPY LIST WITH RANDOM POINTER
+
+Problem
+
+Each node contains two pointers:
+
+next pointer
+random pointer
+
+The random pointer can point to any node in the list.
+
+Example
+
+1 → 2 → 3
+|    |    |
+v    v    v
+3    1    2
+
+Goal:
+
+Create a deep copy of the entire structure.
+
+--------------------------------------------------
+
+CHALLENGE
+
+If we copy nodes normally, random pointers will still
+point to original nodes instead of copied nodes.
+
+Example
+
+1' → 2' → 3'
+
+But
+
+1'.random might point to original node 3.
+
+This breaks deep copy correctness.
+
+--------------------------------------------------
+
+HASHMAP APPROACH
+
+Store mapping:
+
+original node → copied node
+
+Then reconstruct next and random pointers.
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+--------------------------------------------------
+
+OPTIMAL APPROACH (O(1) SPACE)
+
+Key trick:
+
+Insert copied nodes between original nodes.
+
+Example
+
+Original
+
+1 → 2 → 3
+
+After insertion
+
+1 → 1' → 2 → 2' → 3 → 3'
+
+Now the random pointer of copied node
+can be determined using:
+
+copy.random = original.random.next
+
+Because copied nodes always follow their originals.
+
+Finally separate the two lists.
+
+--------------------------------------------------
