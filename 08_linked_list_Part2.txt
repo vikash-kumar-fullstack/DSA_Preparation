@@ -340,3 +340,143 @@ Time Complexity: O(n)
 Space Complexity: O(1)
 
 --------------------------------------------------
+
+4. REORDER LINKED LIST
+
+Problem
+
+Reorder a list into the pattern:
+
+L0 → Ln → L1 → Ln-1 → L2 → Ln-2
+
+Example
+
+1 → 2 → 3 → 4 → 5
+
+Output
+
+1 → 5 → 2 → 4 → 3
+
+--------------------------------------------------
+
+KEY OBSERVATION
+
+The final list alternates between:
+
+front nodes
+back nodes
+
+This suggests three operations:
+
+1. Split the list
+2. Reverse the second half
+3. Merge alternately
+
+--------------------------------------------------
+
+STEP 1 — FIND MIDDLE
+
+Use fast and slow pointer technique.
+
+Example
+
+1 → 2 → 3 → 4 → 5
+
+Middle = 3
+
+Split:
+
+1 → 2 → 3
+4 → 5
+
+--------------------------------------------------
+
+STEP 2 — REVERSE SECOND HALF
+
+4 → 5
+
+becomes
+
+5 → 4
+
+--------------------------------------------------
+
+STEP 3 — MERGE ALTERNATELY
+
+first half = 1 → 2 → 3
+second half = 5 → 4
+
+Result:
+
+1 → 5 → 2 → 4 → 3
+
+--------------------------------------------------
+
+C++ CODE
+
+void reorderList(ListNode* head){
+
+    if(head == NULL || head->next == NULL)
+        return;
+
+    ListNode* slow = head;
+    ListNode* fast = head;
+
+    while(fast->next != NULL && fast->next->next != NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    ListNode* prev = NULL;
+    ListNode* curr = slow->next;
+
+    slow->next = NULL;
+
+    while(curr != NULL){
+        ListNode* next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    ListNode* first = head;
+    ListNode* second = prev;
+
+    while(second != NULL){
+
+        ListNode* temp1 = first->next;
+        ListNode* temp2 = second->next;
+
+        first->next = second;
+        second->next = temp1;
+
+        first = temp1;
+        second = temp2;
+    }
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+--------------------------------------------------
+
+DAY 8 SUMMARY
+
+Patterns Learned
+
+Two Pointer Gap Technique
+Floyd Cycle Detection Mathematics
+Fast–Slow Pointer
+Reverse Linked List
+Split + Reverse + Merge
+
+Problems Solved
+
+1. Remove Nth Node From End
+2. Detect Cycle Start
+3. Palindrome Linked List
+4. Reorder Linked List
+
+--------------------------------------------------
+
+END OF DAY 8
