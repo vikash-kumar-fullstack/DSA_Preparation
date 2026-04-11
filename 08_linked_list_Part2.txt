@@ -117,3 +117,127 @@ ListNode* removeNthFromEnd(ListNode* head, int n){
 
 Time Complexity: O(n)
 Space Complexity: O(1)
+
+--------------------------------------------------
+
+2. FIND CYCLE START (FLOYD CYCLE DETECTION)
+
+Problem
+
+Given a linked list, detect whether a cycle exists,
+and if so, return the node where the cycle begins.
+
+Example
+
+1 → 2 → 3 → 4 → 5
+      ↑       ↓
+      ← ← ← ←
+
+Cycle start = node 3
+
+--------------------------------------------------
+
+STEP 1 — DETECT CYCLE
+
+We use Floyd's algorithm with two pointers:
+
+slow pointer → moves one step
+fast pointer → moves two steps
+
+If a cycle exists, fast will eventually catch slow.
+
+If fast reaches NULL, the list has no cycle.
+
+--------------------------------------------------
+
+MATHEMATICAL INTUITION
+
+Let:
+
+A = distance from head to cycle start
+B = distance from cycle start to meeting point
+C = remaining distance inside cycle
+
+Cycle length = B + C
+
+When slow and fast meet:
+
+Distance travelled by slow = A + B
+
+Distance travelled by fast = A + B + C + B
+
+Why?
+
+Because fast completes one extra cycle.
+
+Since fast moves twice as fast:
+
+fast distance = 2 × slow distance
+
+So:
+
+A + B + C + B = 2(A + B)
+
+Simplifying:
+
+A + 2B + C = 2A + 2B
+
+Cancel 2B from both sides:
+
+A + C = 2A
+
+Therefore:
+
+C = A
+
+--------------------------------------------------
+
+IMPORTANT RESULT
+
+Distance from meeting point to cycle start = distance from head to cycle start.
+
+Therefore:
+
+If we place
+
+pointer1 at head
+pointer2 at meeting point
+
+and move both one step at a time,
+
+they will meet exactly at the cycle start.
+
+--------------------------------------------------
+
+C++ CODE
+
+ListNode* detectCycle(ListNode* head){
+
+    ListNode* slow = head;
+    ListNode* fast = head;
+
+    while(fast != NULL && fast->next != NULL){
+
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if(slow == fast){
+
+            slow = head;
+
+            while(slow != fast){
+                slow = slow->next;
+                fast = fast->next;
+            }
+
+            return slow;
+        }
+    }
+
+    return NULL;
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+------
