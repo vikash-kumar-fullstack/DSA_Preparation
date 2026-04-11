@@ -1,0 +1,124 @@
+DSA INTERVIEW NOTES — DAY 9
+TOPIC: LINKED LIST INTERVIEW MASTERY
+
+--------------------------------------------------
+
+INTRODUCTION
+
+Linked Lists are heavily tested in coding interviews because they test
+a candidate’s ability to manipulate pointers and understand memory references.
+
+Unlike arrays, linked lists do not allow random access.
+Every operation must be performed through pointer traversal.
+
+In advanced linked list problems, most solutions rely on recognizing
+pointer movement patterns and structural transformations.
+
+Today we studied three important interview problems:
+
+1. Intersection of Two Linked Lists
+2. Add Two Numbers
+3. Copy List with Random Pointer
+
+These problems test different aspects of linked list reasoning.
+
+--------------------------------------------------
+
+1. INTERSECTION OF TWO LINKED LISTS
+
+Problem
+
+Two singly linked lists may merge at a certain node.
+
+Example
+
+A: 4 → 1
+         ↘
+           8 → 4 → 5
+         ↗
+B:    5 → 6 → 1
+
+Output
+
+Node with value 8
+
+Important:
+
+Intersection is determined by node reference,
+not by node value.
+
+--------------------------------------------------
+
+INTUITION
+
+If we measure lengths of both lists:
+
+Length A = a + c
+Length B = b + c
+
+Where:
+
+a = nodes before intersection in A
+b = nodes before intersection in B
+c = common intersection nodes
+
+--------------------------------------------------
+
+OPTIMAL IDEA
+
+Use two pointers:
+
+pA starting at headA
+pB starting at headB
+
+Traverse normally.
+
+When a pointer reaches the end of its list,
+redirect it to the head of the other list.
+
+Eventually both pointers travel equal distances:
+
+pA path: a + c + b
+pB path: b + c + a
+
+Because the distances become equal,
+they meet exactly at the intersection node.
+
+--------------------------------------------------
+
+C++ CODE
+
+ListNode *getIntersectionNode(ListNode *headA, ListNode *headB){
+
+    ListNode* pA = headA;
+    ListNode* pB = headB;
+
+    while(pA != pB){
+
+        if(pA == NULL)
+            pA = headB;
+        else
+            pA = pA->next;
+
+        if(pB == NULL)
+            pB = headA;
+        else
+            pB = pB->next;
+    }
+
+    return pA;
+}
+
+Time Complexity: O(n + m)
+Space Complexity: O(1)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Two Pointer Distance Equalization
+
+This technique aligns two pointers by equalizing
+the total distance traveled.
+
+--------------------------------------------------
