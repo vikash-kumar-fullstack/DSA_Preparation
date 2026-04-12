@@ -215,3 +215,119 @@ Transform the list into a temporary cycle
 to simplify pointer manipulation.
 
 --------------------------------------------------
+
+3. PARTITION LINKED LIST
+
+Problem
+
+Reorder the linked list so that all nodes with
+values less than x come before nodes with values
+greater than or equal to x.
+
+Example
+
+1 → 4 → 3 → 2 → 5 → 2
+x = 3
+
+Output
+
+1 → 2 → 2 → 4 → 3 → 5
+
+Important condition
+
+Relative order must remain unchanged.
+
+--------------------------------------------------
+
+WHY SWAPPING FAILS
+
+If we swap nodes directly,
+the relative order between elements may change.
+
+Example
+
+Original order
+
+4 → 3
+
+After swapping
+
+3 → 4
+
+This violates the stability requirement.
+
+--------------------------------------------------
+
+OPTIMAL IDEA
+
+Maintain two separate linked lists:
+
+before list → nodes < x
+after list → nodes ≥ x
+
+After traversing the original list,
+connect the before list with the after list.
+
+--------------------------------------------------
+
+C++ CODE
+
+ListNode* partition(ListNode* head, int x){
+
+    ListNode beforeDummy(0);
+    ListNode afterDummy(0);
+
+    ListNode* before = &beforeDummy;
+    ListNode* after = &afterDummy;
+
+    while(head){
+
+        if(head->val < x){
+            before->next = head;
+            before = before->next;
+        }
+        else{
+            after->next = head;
+            after = after->next;
+        }
+
+        head = head->next;
+    }
+
+    after->next = NULL;
+    before->next = afterDummy.next;
+
+    return beforeDummy.next;
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Stable Partition Using Two Lists
+
+Used when the order of elements must be preserved
+while grouping elements by a condition.
+
+--------------------------------------------------
+
+DAY 10 SUMMARY
+
+Problems Solved
+
+1. Reverse Nodes in K Group
+2. Rotate Linked List
+3. Partition Linked List
+
+Key Techniques Learned
+
+Segmented Reversal
+Cycle Creation and Breaking
+Stable Partition Using Multiple Lists
+
+--------------------------------------------------
+
+END OF DAY 10
