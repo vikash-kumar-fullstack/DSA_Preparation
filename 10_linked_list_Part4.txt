@@ -1,0 +1,126 @@
+DSA INTERVIEW NOTES — DAY 10
+TOPIC: ADVANCED LINKED LIST MANIPULATION
+
+--------------------------------------------------
+
+INTRODUCTION
+
+Advanced linked list interview questions often test a candidate's
+ability to manipulate node connections carefully while maintaining
+the structural integrity of the list.
+
+Unlike arrays, linked lists cannot access elements by index.
+Every modification must be done through pointer updates.
+
+Today we studied three important linked list transformations:
+
+1. Reverse Nodes in K Group
+2. Rotate Linked List
+3. Partition Linked List
+
+These problems combine multiple linked list techniques such as
+segment reversal, cyclic transformations, and stable partitioning.
+
+--------------------------------------------------
+
+1. REVERSE NODES IN K GROUP
+
+Problem
+
+Given a linked list, reverse nodes in groups of size k.
+
+Example
+
+1 → 2 → 3 → 4 → 5
+k = 2
+
+Output
+
+2 → 1 → 4 → 3 → 5
+
+Important rule
+
+If the remaining number of nodes is less than k,
+those nodes must remain unchanged.
+
+--------------------------------------------------
+
+CORE IDEA
+
+Instead of reversing the entire list,
+we reverse the list in segments of size k.
+
+For each segment:
+
+1. Verify that k nodes exist.
+2. Reverse those k nodes.
+3. Recursively process the remaining list.
+4. Connect the reversed segment with the result.
+
+--------------------------------------------------
+
+WHY WE MUST CHECK IF K NODES EXIST
+
+Example
+
+1 → 2 → 3 → 4 → 5
+k = 3
+
+Correct output
+
+3 → 2 → 1 → 4 → 5
+
+If we attempt to reverse the last segment blindly:
+
+4 → 5
+
+we would incorrectly produce
+
+5 → 4
+
+which violates the problem requirement.
+
+Therefore we must verify that k nodes exist before reversing.
+
+--------------------------------------------------
+
+C++ CODE
+
+ListNode* reverseKGroup(ListNode* head, int k){
+
+    ListNode* curr = head;
+    int count = 0;
+
+    while(curr && count < k){
+        curr = curr->next;
+        count++;
+    }
+
+    if(count < k)
+        return head;
+
+    curr = reverseKGroup(curr, k);
+
+    while(count--){
+        ListNode* temp = head->next;
+        head->next = curr;
+        curr = head;
+        head = temp;
+    }
+
+    return curr;
+}
+
+Time Complexity: O(n)
+Space Complexity: O(n/k) recursion stack
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Segmented Linked List Reversal
+
+This technique appears in several problems where
+subsections of the list must be reversed independently.
+
+--------------------------------------------------
