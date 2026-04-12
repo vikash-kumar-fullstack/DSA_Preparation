@@ -124,3 +124,94 @@ This technique appears in several problems where
 subsections of the list must be reversed independently.
 
 --------------------------------------------------
+
+2. ROTATE LINKED LIST
+
+Problem
+
+Rotate the list to the right by k positions.
+
+Example
+
+1 → 2 → 3 → 4 → 5
+k = 2
+
+Output
+
+4 → 5 → 1 → 2 → 3
+
+--------------------------------------------------
+
+INTUITION
+
+Rotating right by k means that the last k nodes
+move to the front of the list.
+
+However performing k rotations directly would be inefficient.
+
+Instead we observe that rotating n times results
+in the same list.
+
+Therefore we compute:
+
+k = k % n
+
+--------------------------------------------------
+
+ALGORITHM
+
+1. Compute the length of the list.
+2. Connect the tail node to the head to create a cycle.
+3. Find the new tail at position (n - k - 1).
+4. The node after the new tail becomes the new head.
+5. Break the cycle.
+
+--------------------------------------------------
+
+C++ CODE
+
+ListNode* rotateRight(ListNode* head, int k){
+
+    if(!head || !head->next)
+        return head;
+
+    int n = 1;
+    ListNode* tail = head;
+
+    while(tail->next){
+        tail = tail->next;
+        n++;
+    }
+
+    k = k % n;
+
+    if(k == 0)
+        return head;
+
+    tail->next = head;
+
+    int steps = n - k;
+    ListNode* newTail = head;
+
+    for(int i = 1; i < steps; i++)
+        newTail = newTail->next;
+
+    ListNode* newHead = newTail->next;
+    newTail->next = NULL;
+
+    return newHead;
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Cycle + Break Technique
+
+Transform the list into a temporary cycle
+to simplify pointer manipulation.
+
+--------------------------------------------------
