@@ -1,0 +1,276 @@
+DSA INTERVIEW NOTES — DAY 11
+TOPIC: QUEUE AND DEQUE PATTERNS
+
+--------------------------------------------------
+
+INTRODUCTION
+
+Queues follow the FIFO (First In First Out) principle.
+
+Elements inserted first are removed first.
+
+Deque (Double Ended Queue) allows insertion and deletion
+from both front and back.
+
+Queue and deque structures are very important for problems
+involving sliding windows, scheduling, and monotonic structures.
+
+Today we studied three problems:
+
+1. Implement Queue using Stacks
+2. Implement Stack using Queue
+3. Sliding Window Maximum
+
+--------------------------------------------------
+
+1. IMPLEMENT QUEUE USING STACKS
+
+Problem
+
+Design a queue using only stack operations.
+
+Queue operations required
+
+push(x)
+pop()
+peek()
+empty()
+
+Queue property
+
+FIFO (First In First Out)
+
+--------------------------------------------------
+
+CORE IDEA
+
+A stack follows LIFO order.
+
+By using two stacks we can reverse the order of elements
+to simulate queue behavior.
+
+Two stacks are maintained:
+
+input stack
+output stack
+
+--------------------------------------------------
+
+ALGORITHM
+
+push(x)
+
+Push the element into the input stack.
+
+pop()
+
+If the output stack is empty,
+transfer all elements from input stack to output stack.
+
+Then pop from output stack.
+
+peek()
+
+Return the top element of the output stack.
+
+empty()
+
+Queue is empty if both stacks are empty.
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+push → O(1)
+pop  → amortized O(1)
+peek → amortized O(1)
+
+Each element moves between stacks at most once.
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Data Structure Simulation
+
+Using stacks to simulate queue behavior.
+
+--------------------------------------------------
+
+2. IMPLEMENT STACK USING QUEUE
+
+Problem
+
+Design a stack using queue operations.
+
+Stack property
+
+LIFO (Last In First Out)
+
+--------------------------------------------------
+
+CORE IDEA
+
+When pushing a new element into the queue,
+rotate the queue so the new element moves to the front.
+
+This ensures the newest element is always removed first.
+
+--------------------------------------------------
+
+ALGORITHM
+
+push(x)
+
+Insert element into queue.
+
+Rotate the queue size-1 times by moving front element to back.
+
+This brings the newly inserted element to the front.
+
+pop()
+
+Remove the front element.
+
+top()
+
+Return the front element.
+
+empty()
+
+Check if queue is empty.
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+push → O(n)
+pop  → O(1)
+top  → O(1)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Queue Rotation Technique
+
+Used to simulate stack behavior.
+
+--------------------------------------------------
+
+3. SLIDING WINDOW MAXIMUM
+
+Problem
+
+Given an array and a window size k,
+find the maximum element in every sliding window.
+
+Example
+
+nums = [1,3,-1,-3,5,3,6,7]
+k = 3
+
+Output
+
+[3,3,5,5,6,7]
+
+--------------------------------------------------
+
+NAIVE APPROACH
+
+For every window,
+scan all k elements to find maximum.
+
+Time Complexity
+
+O(n × k)
+
+This becomes inefficient when k is large.
+
+--------------------------------------------------
+
+OPTIMAL APPROACH
+
+Use a Monotonic Deque.
+
+The deque maintains elements in decreasing order.
+
+The front of the deque always contains
+the maximum element of the current window.
+
+--------------------------------------------------
+
+ALGORITHM
+
+For each index i
+
+1. Remove indices that are outside the current window.
+
+If dq.front() <= i - k
+remove from front.
+
+2. Maintain decreasing order.
+
+Remove elements from back while
+
+nums[dq.back()] < nums[i]
+
+3. Insert current index into deque.
+
+4. When i ≥ k - 1
+the maximum element is nums[dq.front()].
+
+--------------------------------------------------
+
+WHY WE STORE INDICES
+
+Indices allow us to determine whether an element
+is outside the current sliding window.
+
+Using the index we can also access the corresponding
+value from the array for comparisons.
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+O(n)
+
+Each element enters and leaves the deque at most once.
+
+--------------------------------------------------
+
+SPACE COMPLEXITY
+
+O(k)
+
+Deque stores indices of elements in the window.
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Monotonic Deque
+
+Maintains elements in sorted order to efficiently
+retrieve window maximum or minimum.
+
+--------------------------------------------------
+
+DAY 11 SUMMARY
+
+Problems Solved
+
+1. Implement Queue using Stack
+2. Implement Stack using Queue
+3. Sliding Window Maximum
+
+Patterns Learned
+
+Data Structure Simulation
+Queue Rotation Technique
+Monotonic Deque
+
+--------------------------------------------------
+
+END OF DAY 11
