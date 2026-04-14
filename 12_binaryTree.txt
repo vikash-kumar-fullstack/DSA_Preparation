@@ -1,0 +1,392 @@
+DSA INTERVIEW NOTES — DAY 12
+TOPIC: BINARY TREE FOUNDATIONS
+
+--------------------------------------------------
+
+INTRODUCTION
+
+Binary trees are one of the most important data structures
+in coding interviews. Many problems revolve around traversing
+the tree and combining results from the left and right subtrees.
+
+Most tree problems follow a recursive pattern where the solution
+for a node depends on the solutions of its children.
+
+Today we studied the fundamental tree traversal techniques and
+two important recursive tree patterns.
+
+Problems covered:
+
+1. Binary Tree Traversals
+2. Binary Tree Level Order Traversal
+3. Maximum Depth of Binary Tree
+4. Diameter of Binary Tree
+
+--------------------------------------------------
+
+1. BINARY TREE TRAVERSALS (DFS)
+
+Binary tree traversal means visiting every node
+in a specific order.
+
+The three depth-first traversal orders are:
+
+Preorder
+Inorder
+Postorder
+
+--------------------------------------------------
+
+PREORDER TRAVERSAL
+
+Order
+
+Root → Left → Right
+
+Example tree
+
+        1
+       / \
+      2   3
+     / \
+    4   5
+
+Preorder output
+
+1 2 4 5 3
+
+--------------------------------------------------
+
+INORDER TRAVERSAL
+
+Order
+
+Left → Root → Right
+
+Output
+
+4 2 5 1 3
+
+In Binary Search Trees this traversal produces
+sorted order.
+
+--------------------------------------------------
+
+POSTORDER TRAVERSAL
+
+Order
+
+Left → Right → Root
+
+Output
+
+4 5 2 3 1
+
+This traversal is useful when child nodes must
+be processed before the parent.
+
+--------------------------------------------------
+
+C++ IMPLEMENTATION
+
+Preorder
+
+void preorder(TreeNode* root){
+    if(root == NULL) return;
+
+    cout << root->val;
+    preorder(root->left);
+    preorder(root->right);
+}
+
+Inorder
+
+void inorder(TreeNode* root){
+    if(root == NULL) return;
+
+    inorder(root->left);
+    cout << root->val;
+    inorder(root->right);
+}
+
+Postorder
+
+void postorder(TreeNode* root){
+    if(root == NULL) return;
+
+    postorder(root->left);
+    postorder(root->right);
+    cout << root->val;
+}
+
+Time Complexity
+
+O(n)
+
+Space Complexity
+
+O(h) recursion stack
+h = tree height
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Tree DFS Traversal
+
+Depth First Search explores one branch
+of the tree completely before moving
+to another branch.
+
+--------------------------------------------------
+
+2. LEVEL ORDER TRAVERSAL (BFS)
+
+Level order traversal processes nodes
+level by level from top to bottom.
+
+Example tree
+
+        1
+       / \
+      2   3
+     / \
+    4   5
+
+Output
+
+Level 1 → 1
+Level 2 → 2 3
+Level 3 → 4 5
+
+--------------------------------------------------
+
+CORE IDEA
+
+Use a queue to process nodes in
+the order they appear in each level.
+
+Nodes of one level are inserted
+before processing the next level.
+
+--------------------------------------------------
+
+ALGORITHM
+
+1. Insert root node into queue
+2. Process nodes level by level
+3. Insert left and right children
+4. Continue until queue becomes empty
+
+--------------------------------------------------
+
+C++ CODE
+
+vector<vector<int>> levelOrder(TreeNode* root){
+
+    vector<vector<int>> ans;
+
+    if(!root) return ans;
+
+    queue<TreeNode*> q;
+    q.push(root);
+
+    while(!q.empty()){
+
+        int size = q.size();
+        vector<int> level;
+
+        for(int i=0;i<size;i++){
+
+            TreeNode* node = q.front();
+            q.pop();
+
+            level.push_back(node->val);
+
+            if(node->left)
+                q.push(node->left);
+
+            if(node->right)
+                q.push(node->right);
+        }
+
+        ans.push_back(level);
+    }
+
+    return ans;
+}
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+O(n)
+
+SPACE COMPLEXITY
+
+O(n)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Tree BFS Traversal
+
+Breadth First Search processes nodes
+layer by layer using a queue.
+
+--------------------------------------------------
+
+3. MAXIMUM DEPTH OF BINARY TREE
+
+Problem
+
+Find the height of a binary tree.
+
+Height is the number of nodes
+in the longest path from root
+to a leaf node.
+
+--------------------------------------------------
+
+CORE IDEA
+
+The depth of a node equals:
+
+1 + maximum depth of its children.
+
+Formula
+
+depth(node) =
+1 + max(depth(left), depth(right))
+
+--------------------------------------------------
+
+C++ CODE
+
+int solve(TreeNode* root){
+
+    if(root == NULL)
+        return 0;
+
+    int left = solve(root->left);
+    int right = solve(root->right);
+
+    return max(left,right) + 1;
+}
+
+int maxDepth(TreeNode* root){
+    return solve(root);
+}
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+O(n)
+
+SPACE COMPLEXITY
+
+O(h)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Tree Recursion (Divide and Conquer)
+
+The solution of a node depends on
+the solutions of its subtrees.
+
+--------------------------------------------------
+
+4. DIAMETER OF BINARY TREE
+
+Problem
+
+Find the longest path between
+any two nodes in the tree.
+
+The path may or may not pass
+through the root.
+
+--------------------------------------------------
+
+KEY INSIGHT
+
+The longest path passing through
+a node equals
+
+height(left subtree) + height(right subtree)
+
+We track the maximum value across
+all nodes.
+
+--------------------------------------------------
+
+C++ CODE
+
+class Solution {
+public:
+
+    int ans = 0;
+
+    int solve(TreeNode* root){
+
+        if(!root) return 0;
+
+        int left = solve(root->left);
+        int right = solve(root->right);
+
+        ans = max(ans, left + right);
+
+        return max(left,right) + 1;
+    }
+
+    int diameterOfBinaryTree(TreeNode* root){
+        solve(root);
+        return ans;
+    }
+};
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+O(n)
+
+SPACE COMPLEXITY
+
+O(h)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Tree Dynamic Programming
+
+Compute subtree information
+first and combine results at
+the parent node.
+
+--------------------------------------------------
+
+DAY 12 SUMMARY
+
+Problems Studied
+
+1. Binary Tree Traversals
+2. Level Order Traversal
+3. Maximum Depth of Binary Tree
+4. Diameter of Binary Tree
+
+Core Patterns Learned
+
+Tree DFS
+Tree BFS
+Divide and Conquer Recursion
+Tree Dynamic Programming
+
+--------------------------------------------------
+
+END OF DAY 12
