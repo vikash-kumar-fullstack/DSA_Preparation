@@ -1,0 +1,271 @@
+DSA INTERVIEW NOTES — DAY 13
+TOPIC: BINARY TREE RECURSION PATTERNS
+
+--------------------------------------------------
+
+INTRODUCTION
+
+Binary tree problems often require combining information
+from left and right subtrees using recursion.
+
+Most tree interview problems follow the structure:
+
+solve(node) =
+    combine(
+        solve(node->left),
+        solve(node->right)
+    )
+
+Today we studied three important binary tree patterns.
+
+Problems Covered:
+
+1. Balanced Binary Tree
+2. Path Sum
+3. Binary Tree Right Side View
+
+--------------------------------------------------
+
+1. BALANCED BINARY TREE
+
+Problem
+
+A binary tree is height-balanced if for every node:
+
+| height(left subtree) − height(right subtree) | ≤ 1
+
+--------------------------------------------------
+
+BRUTE FORCE APPROACH
+
+For every node:
+
+1. Compute height of left subtree
+2. Compute height of right subtree
+3. Check difference
+
+Problem
+
+height() itself takes O(n)
+
+So repeating it for every node results in:
+
+Time Complexity = O(n²)
+
+--------------------------------------------------
+
+OPTIMAL APPROACH
+
+Combine height calculation and balance checking
+in a single recursion.
+
+Key idea
+
+Return -1 if subtree becomes unbalanced.
+
+Otherwise return the height.
+
+--------------------------------------------------
+
+C++ CODE
+
+int height(TreeNode* root){
+
+    if(!root)
+        return 0;
+
+    int left = height(root->left);
+    if(left == -1) return -1;
+
+    int right = height(root->right);
+    if(right == -1) return -1;
+
+    if(abs(left - right) > 1)
+        return -1;
+
+    return max(left,right) + 1;
+}
+
+bool isBalanced(TreeNode* root){
+    return height(root) != -1;
+}
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+O(n)
+
+Each node is visited once.
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Height + Validation Recursion
+
+Return extra information from recursion
+to avoid repeated computation.
+
+--------------------------------------------------
+
+2. PATH SUM
+
+Problem
+
+Determine if the tree has a root-to-leaf path
+whose node values sum to a given target.
+
+--------------------------------------------------
+
+KEY IDEA
+
+Instead of accumulating the sum,
+subtract node values from the target.
+
+targetSum = targetSum - node->val
+
+When reaching a leaf node:
+
+Check if
+
+targetSum == node->val
+
+--------------------------------------------------
+
+C++ CODE
+
+bool solve(TreeNode* root, int targetSum){
+
+    if(!root)
+        return false;
+
+    if(!root->left && !root->right)
+        return targetSum == root->val;
+
+    return solve(root->left, targetSum - root->val) ||
+           solve(root->right, targetSum - root->val);
+}
+
+bool hasPathSum(TreeNode* root, int targetSum){
+    return solve(root, targetSum);
+}
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+O(n)
+
+Worst case we traverse the entire tree.
+
+--------------------------------------------------
+
+SPACE COMPLEXITY
+
+O(h)
+
+h = height of tree
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Root-to-Leaf Path Recursion
+
+At each step reduce the target
+and explore child paths.
+
+--------------------------------------------------
+
+3. BINARY TREE RIGHT SIDE VIEW
+
+Problem
+
+Return the nodes visible when looking at
+the binary tree from the right side.
+
+--------------------------------------------------
+
+IDEA 1 (BFS)
+
+Perform level order traversal.
+
+For each level:
+
+Record the last node processed.
+
+--------------------------------------------------
+
+IDEA 2 (DFS)
+
+Traverse the tree in order:
+
+Root → Right → Left
+
+The first node encountered at each level
+is the rightmost node.
+
+Condition used:
+
+level == ans.size()
+
+--------------------------------------------------
+
+C++ CODE (DFS)
+
+void solve(TreeNode* root, vector<int>& ans, int level){
+
+    if(!root)
+        return;
+
+    if(level == ans.size())
+        ans.push_back(root->val);
+
+    solve(root->right, ans, level + 1);
+    solve(root->left, ans, level + 1);
+}
+
+vector<int> rightSideView(TreeNode* root){
+
+    vector<int> ans;
+    solve(root, ans, 0);
+    return ans;
+}
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+O(n)
+
+Each node visited once.
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+DFS Level Tracking
+
+Detect the first node encountered
+at each depth level.
+
+--------------------------------------------------
+
+DAY 13 SUMMARY
+
+Problems Solved
+
+1. Balanced Binary Tree
+2. Path Sum
+3. Binary Tree Right Side View
+
+Key Concepts Learned
+
+Height validation recursion
+Root-to-leaf path recursion
+Level view extraction using BFS and DFS
+
+--------------------------------------------------
+
+END OF DAY 13
