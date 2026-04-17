@@ -1,0 +1,259 @@
+DSA INTERVIEW NOTES — DAY 15
+TOPIC: ADVANCED TREE PROBLEMS (HARD)
+
+--------------------------------------------------
+
+INTRODUCTION
+
+Today we moved into advanced binary tree problems
+that are commonly asked in product-based company interviews.
+
+These problems require:
+
+1. Strong recursion understanding
+2. Handling multiple return values
+3. Preserving tree structure
+
+Problems Covered:
+
+1. Maximum Path Sum
+2. Serialize & Deserialize Binary Tree
+
+--------------------------------------------------
+
+1. MAXIMUM PATH SUM
+
+Problem
+
+Find the maximum path sum in a binary tree.
+
+Rules:
+
+- Path can start and end at ANY node
+- Path must be continuous (parent-child)
+- Path cannot branch while returning upward
+
+--------------------------------------------------
+
+CORE IDEA
+
+At each node, we compute:
+
+left contribution
+right contribution
+
+But we ignore negative values:
+
+left = max(0, solve(left))
+right = max(0, solve(right))
+
+--------------------------------------------------
+
+WHY IGNORE NEGATIVE?
+
+Because negative values decrease the total path sum.
+
+--------------------------------------------------
+
+MAIN LOGIC
+
+At each node:
+
+current_sum = left + right + node->val
+
+Update global maximum:
+
+ans = max(ans, current_sum)
+
+--------------------------------------------------
+
+RETURN VALUE
+
+Return only ONE path upward:
+
+return node->val + max(left, right)
+
+--------------------------------------------------
+
+WHY ONLY ONE SIDE?
+
+Because path must remain continuous.
+
+Taking both sides would create a "Y" shape,
+which is not a valid path when moving upward.
+
+--------------------------------------------------
+
+C++ CODE
+
+int solve(TreeNode* root){
+
+    if(!root) return 0;
+
+    int left = max(0, solve(root->left));
+    int right = max(0, solve(root->right));
+
+    ans = max(ans, left + right + root->val);
+
+    return root->val + max(left, right);
+}
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+O(n)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Tree DP + Global Answer Pattern
+
+Global answer → can use both sides
+Return value → only one side
+
+--------------------------------------------------
+
+2. SERIALIZE & DESERIALIZE BINARY TREE
+
+Problem
+
+Convert tree to string and back to tree.
+
+--------------------------------------------------
+
+MAIN CHALLENGE
+
+Preserve tree structure.
+
+Without NULL nodes, reconstruction is impossible.
+
+--------------------------------------------------
+
+KEY IDEA
+
+Include NULL markers during serialization.
+
+--------------------------------------------------
+
+PREORDER APPROACH
+
+Traversal:
+
+Root → Left → Right
+
+--------------------------------------------------
+
+SERIALIZATION LOGIC
+
+If node exists → store value
+If node is NULL → store "NULL"
+
+--------------------------------------------------
+
+DESERIALIZATION LOGIC
+
+Read values in same order:
+
+"NULL" → return NULL
+Else → create node and build left & right
+
+--------------------------------------------------
+
+WHY NULL IS IMPORTANT
+
+Without NULL:
+
+Different trees may produce same sequence.
+
+Example:
+
+Tree A:       Tree B:
+
+   1             1
+  /               \
+ 2                 2
+
+Both → "1,2"
+
+This creates ambiguity.
+
+--------------------------------------------------
+
+BFS APPROACH (LEVEL ORDER)
+
+We can also serialize using queue.
+
+Important:
+
+We must include NULL nodes.
+
+--------------------------------------------------
+
+KEY DIFFERENCE
+
+Preorder → recursion-based
+BFS → queue-based
+
+--------------------------------------------------
+
+IMPORTANT INSIGHT
+
+Each node consumes two values in deserialization:
+
+left child
+right child
+
+Hence index increments twice.
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+O(n)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Tree Encoding & Decoding
+
+Structure preservation is essential.
+
+--------------------------------------------------
+
+DAY 15 SUMMARY
+
+Problems Solved:
+
+1. Maximum Path Sum
+2. Serialize & Deserialize Binary Tree
+
+Key Concepts Learned:
+
+Tree DP with global answer
+Handling negative contributions
+Path vs subtree difference
+Structure preservation using NULL
+Preorder vs BFS serialization
+
+--------------------------------------------------
+
+OVERALL TREE MASTERY
+
+You now understand:
+
+DFS & BFS
+Height & Diameter
+Balanced Trees
+Path-based recursion
+Ancestor (LCA)
+Backtracking
+Level variations
+Tree DP (hard)
+Serialization
+
+--------------------------------------------------
+
+END OF DAY 15
