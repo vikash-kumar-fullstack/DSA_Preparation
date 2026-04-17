@@ -1,0 +1,289 @@
+DSA INTERVIEW NOTES — DAY 14
+TOPIC: ADVANCED BINARY TREE PATTERNS
+
+--------------------------------------------------
+
+INTRODUCTION
+
+Binary tree problems often involve combining results
+from left and right subtrees using recursion.
+
+Most medium-level tree problems are based on:
+
+1. Propagating information upward
+2. Building paths
+3. Modifying traversal behavior
+
+Today we covered three important patterns:
+
+1. Lowest Common Ancestor (LCA)
+2. Binary Tree Paths
+3. Zigzag Level Order Traversal
+
+--------------------------------------------------
+
+1. LOWEST COMMON ANCESTOR (LCA)
+
+Problem
+
+Given two nodes p and q, find the lowest node
+that has both p and q in its subtree.
+
+--------------------------------------------------
+
+CORE IDEA
+
+At each node:
+
+1. If node == p or node == q → return node
+
+2. Recursively search in left and right subtrees
+
+3. If both left and right return non-null:
+   → current node is LCA
+
+4. If only one side returns non-null:
+   → propagate that node upward
+
+--------------------------------------------------
+
+C++ CODE
+
+TreeNode* solve(TreeNode* root, TreeNode* p, TreeNode* q){
+
+    if(!root || root == p || root == q)
+        return root;
+
+    TreeNode* left = solve(root->left, p, q);
+    TreeNode* right = solve(root->right, p, q);
+
+    if(left && right)
+        return root;
+
+    return left ? left : right;
+}
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+O(n)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Ancestor Propagation Pattern
+
+Each node returns information about whether
+p or q exists in its subtree.
+
+--------------------------------------------------
+
+IMPORTANT INSIGHT
+
+If one node is ancestor of another,
+the ancestor itself becomes the LCA.
+
+--------------------------------------------------
+
+2. BINARY TREE PATHS
+
+Problem
+
+Return all root-to-leaf paths in string format.
+
+Example
+
+1 → 2 → 5
+1 → 3
+
+Output
+
+["1->2->5", "1->3"]
+
+--------------------------------------------------
+
+CORE IDEA
+
+We build the path while traversing the tree.
+
+At each node:
+
+1. Add current node value to path
+2. If leaf node → store path
+3. Continue recursion
+4. Backtrack or use copy
+
+--------------------------------------------------
+
+APPROACHES
+
+1. Vector + Backtracking
+2. String Copy (simpler implementation)
+
+--------------------------------------------------
+
+C++ CODE (STRING APPROACH)
+
+void solve(TreeNode* root, vector<string>& ans, string path){
+
+    if(!root) return;
+
+    if(path != "")
+        path += "->";
+
+    path += to_string(root->val);
+
+    if(!root->left && !root->right){
+        ans.push_back(path);
+        return;
+    }
+
+    solve(root->left, ans, path);
+    solve(root->right, ans, path);
+}
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+O(n)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Tree Path Construction
+
+Paths are built incrementally during recursion.
+
+--------------------------------------------------
+
+IMPORTANT INSIGHT
+
+Two techniques:
+
+Backtracking → shared state (vector)
+Copying → independent state (string)
+
+--------------------------------------------------
+
+3. ZIGZAG LEVEL ORDER TRAVERSAL
+
+Problem
+
+Traverse tree level by level,
+alternating direction at each level.
+
+Example
+
+Level 1 → left to right
+Level 2 → right to left
+Level 3 → left to right
+
+--------------------------------------------------
+
+CORE IDEA
+
+Use BFS traversal and control direction
+using a boolean flag.
+
+--------------------------------------------------
+
+APPROACHES
+
+1. Reverse vector after each level
+2. Use index placement
+3. Use deque for direct insertion
+
+--------------------------------------------------
+
+C++ CODE (OPTIMIZED INDEX APPROACH)
+
+while(!q.empty()){
+
+    int size = q.size();
+    vector<int> level(size);
+
+    for(int i=0;i<size;i++){
+
+        TreeNode* node = q.front();
+        q.pop();
+
+        int index;
+
+        if(leftToRight)
+            index = i;
+        else
+            index = size - 1 - i;
+
+        level[index] = node->val;
+
+        if(node->left) q.push(node->left);
+        if(node->right) q.push(node->right);
+    }
+
+    ans.push_back(level);
+    leftToRight = !leftToRight;
+}
+
+--------------------------------------------------
+
+TIME COMPLEXITY
+
+O(n)
+
+--------------------------------------------------
+
+PATTERN LEARNED
+
+Level Order Variation
+
+Modify traversal order without changing BFS structure.
+
+--------------------------------------------------
+
+DEQUE INSIGHT
+
+Instead of reversing, we can use:
+
+push_back (left to right)
+push_front (right to left)
+
+--------------------------------------------------
+
+DAY 14 SUMMARY
+
+Problems Solved
+
+1. Lowest Common Ancestor
+2. Binary Tree Paths
+3. Zigzag Level Order Traversal
+
+Key Concepts Learned
+
+Ancestor recursion
+Tree backtracking and path construction
+Level traversal modification
+Deque-based optimization
+
+--------------------------------------------------
+
+OVERALL TREE PROGRESS
+
+You now understand:
+
+Tree DFS
+Tree BFS
+Height recursion
+Diameter pattern
+Balanced tree validation
+Path-based recursion
+Ancestor propagation
+Level view problems
+Traversal variations
+
+--------------------------------------------------
+
+END OF DAY 14
