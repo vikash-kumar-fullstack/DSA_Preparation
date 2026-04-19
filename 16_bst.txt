@@ -1,0 +1,122 @@
+==============================
+DAY 16 — BINARY SEARCH TREES
+==============================
+
+--------------------------------
+1. VALIDATE BST
+--------------------------------
+Core Idea:
+Each node must lie within a valid range (min, max)
+
+Rule:
+left → (min, node)
+right → (node, max)
+
+Code Logic:
+if (node->val <= min || node->val >= max) → false
+
+Time: O(n)
+Space: O(h)
+
+Key Insight:
+BST validation is GLOBAL, not local
+
+
+--------------------------------
+2. INORDER SUCCESSOR
+--------------------------------
+Definition:
+Next greater element in BST
+
+Case 1: Right subtree exists
+→ go right → go leftmost
+
+Case 2: No right subtree
+→ traverse from root
+→ track smallest greater ancestor
+
+Time: O(h)
+Space: O(1)
+
+--------------------------------
+3. INORDER PREDECESSOR
+--------------------------------
+Definition:
+Largest smaller element
+
+Case 1: Left subtree exists
+→ go left → go rightmost
+
+Case 2: No left subtree
+→ traverse from root
+→ track largest smaller ancestor
+
+Time: O(h)
+Space: O(1)
+
+
+--------------------------------
+4. LCA IN BST
+--------------------------------
+Core Idea:
+Use BST ordering
+
+if p < root && q < root → go left
+if p > root && q > root → go right
+else → answer = root
+
+Time: O(h)
+Space: O(1)
+
+Key Insight:
+Split point = LCA
+
+
+--------------------------------
+5. KTH SMALLEST ELEMENT
+--------------------------------
+Core Idea:
+Inorder traversal = sorted order
+
+Approach:
+Traverse inorder
+Count nodes
+Stop at kth node
+
+Optimization:
+Stop recursion early
+
+Time: O(h + k)
+Space: O(h)
+
+Key Insight:
+No need to store array
+
+
+--------------------------------
+PATTERNS LEARNED
+--------------------------------
+1. Range passing (Validate BST)
+2. Candidate tracking (Successor/Predecessor)
+3. Split point logic (LCA)
+4. Inorder = sorted (Kth smallest)
+
+--------------------------------
+COMMON INTERVIEW TRAPS
+--------------------------------
+- Checking only parent-child instead of full range
+- Forgetting subtree case in successor/predecessor
+- Not stopping recursion early
+- Confusing BST with normal Binary Tree
+
+--------------------------------
+SUMMARY
+--------------------------------
+BST allows:
+- Faster search (O(h))
+- Ordered traversal
+- Greedy decisions using value comparison
+
+==============================
+END OF DAY 16
+==============================
