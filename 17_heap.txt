@@ -1,0 +1,220 @@
+========================================
+DAY 17 — HEAPS / PRIORITY QUEUE
+===============================
+
+---
+
+0. CORE CONCEPT
+
+---
+
+Heap = Complete Binary Tree (implemented using array)
+
+Types:
+
+* Max Heap → largest element at top
+* Min Heap → smallest element at top
+
+C++:
+priority_queue<int> maxHeap;
+
+priority_queue<int, vector<int>, greater<int>> minHeap;
+
+---
+
+1. WHEN TO USE HEAP (PATTERN)
+
+---
+
+Use heap when:
+
+* Need Top K elements
+* Need smallest/largest repeatedly
+* Data is dynamic / streaming
+* Cannot sort entire array
+
+Key Idea:
+Heap maintains PARTIAL ORDER, not full sorting
+
+---
+
+2. KTH LARGEST ELEMENT
+
+---
+
+Problem:
+Find kth largest element in array
+
+Approach:
+
+* Use Min Heap of size k
+
+Algorithm:
+
+1. Push first k elements into heap
+2. For remaining elements:
+   if current > heap.top():
+   pop
+   push current
+
+Answer:
+heap.top()
+
+Time: O(n log k)
+Space: O(k)
+
+Key Insight:
+Heap always stores k largest elements
+
+Interview Line:
+"I maintain a min heap of size k to track k largest elements efficiently."
+
+---
+
+3. TOP K FREQUENT ELEMENTS
+
+---
+
+Problem:
+Return k most frequent elements
+
+Approach:
+Step 1: Frequency map
+unordered_map<int,int> freq
+
+Step 2: Min heap of (frequency, element)
+
+Algorithm:
+for each (element, freq):
+push into heap
+if size > k:
+pop
+
+Answer:
+elements in heap
+
+Time: O(n log k)
+Space: O(n)
+
+Key Insight:
+Heap must store (freq, element) because sorting is based on frequency
+
+Interview Line:
+"I use a hashmap to count frequency and a min heap to keep the k most frequent elements."
+
+---
+
+4. MERGE K SORTED LISTS
+
+---
+
+Problem:
+Merge k sorted linked lists
+
+Approach:
+
+* Use Min Heap storing ListNode*
+
+Steps:
+
+1. Push all list heads into heap
+2. While heap not empty:
+
+   * pop smallest node
+   * add to result
+   * push its next node (if exists)
+
+Comparator:
+return a->val > b->val
+
+Time: O(N log k)
+Space: O(k)
+
+Key Insight:
+At any time heap contains at most k elements
+
+Interview Line:
+"I use a min heap to always extract the smallest node among k lists and push the next node dynamically."
+
+---
+
+5. COMMON PATTERN SUMMARY
+
+---
+
+Kth Largest        → Min Heap size k
+Top K Frequent     → Min Heap size k + hashmap
+Merge K Lists      → Min Heap size k
+
+---
+
+6. IMPORTANT DIFFERENCES
+
+---
+
+Min Heap vs Max Heap:
+
+Min Heap:
+
+* Used for Top K largest problems
+* Removes smallest
+
+Max Heap:
+
+* Used for Top K smallest problems
+* Removes largest
+
+---
+
+7. COMMON MISTAKES
+
+---
+
+* Using wrong heap type
+* Forgetting heap size limit
+* Not using pair in frequency problems
+* Doing full sorting instead of heap
+* Not understanding WHY heap is used
+
+---
+
+8. HEAP VS QUICKSELECT
+
+---
+
+Heap:
+
+* O(n log k)
+* Works for streaming data
+
+Quickselect:
+
+* O(n) average
+* Best for static array
+
+---
+
+9. MENTAL MODEL
+
+---
+
+Heap = Tool to maintain TOP K efficiently
+
+Not for full sorting
+Not for storing all elements
+
+---
+
+10. REVISION CHECKLIST
+
+---
+
+* Know min heap syntax
+* Understand why heap size = k
+* Know when to use pair
+* Be able to explain logic verbally
+* Understand optimization (avoid unnecessary push/pop)
+
+========================================
+END OF DAY 17
+=============
