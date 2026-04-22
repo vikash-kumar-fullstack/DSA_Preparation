@@ -1,0 +1,169 @@
+========================================
+DAY 18 — GREEDY ALGORITHMS
+==========================
+
+---
+
+0. CORE IDEA
+
+---
+
+Greedy = Make best local decision at each step
+
+Works only when:
+
+* Greedy choice leads to global optimum
+* No need to revisit decisions
+
+---
+
+1. IDENTIFICATION OF GREEDY
+
+---
+
+Look for:
+
+* Sorting helps
+* Maximize / Minimize problems
+* No backtracking needed
+* Local optimal choice works
+
+---
+
+2. ASSIGN COOKIES
+
+---
+
+Problem:
+Maximize satisfied children
+
+Approach:
+
+* Sort greed array
+* Sort cookies array
+* Use two pointers
+
+Algorithm:
+if cookie >= greed:
+assign
+move both
+else:
+move cookie pointer
+
+Time: O(n log n)
+
+Key Insight:
+Use smallest sufficient resource
+
+---
+
+3. ACTIVITY SELECTION
+
+---
+
+Problem:
+Max number of non-overlapping intervals
+
+Approach:
+
+* Sort by end time
+* Always pick earliest finishing interval
+
+Algorithm:
+if start >= last_end:
+select interval
+
+Time: O(n log n)
+
+Key Insight:
+Earliest finish → maximum room for future
+
+---
+
+4. ERASE OVERLAP INTERVALS
+
+---
+
+Problem:
+Minimum intervals to remove
+
+Approach:
+Same as activity selection
+
+Algorithm:
+if overlap:
+count++
+else:
+update end
+
+Relation:
+max_non_overlap = n - removed
+
+---
+
+5. JUMP GAME
+
+---
+
+Problem:
+Can we reach last index?
+
+Approach:
+Track maximum reachable index
+
+Algorithm:
+if i > maxReach:
+return false
+
+maxReach = max(maxReach, i + nums[i])
+
+Time: O(n)
+
+Key Insight:
+Track reach, not paths
+
+---
+
+6. PATTERN SUMMARY
+
+---
+
+Assign Cookies        → Sort + Match
+Activity Selection    → Sort by end
+Erase Overlap         → Same logic, count removals
+Jump Game             → Reach tracking
+
+---
+
+7. COMMON MISTAKES
+
+---
+
+* Trying DP where greedy works
+* Sorting incorrectly
+* Not understanding WHY greedy works
+* Overthinking instead of observing pattern
+
+---
+
+8. MENTAL MODEL
+
+---
+
+Greedy = Make safe choice NOW
+So future remains optimal
+
+---
+
+9. INTERVIEW CHECKLIST
+
+---
+
+* Can explain WHY greedy works
+* Can justify sorting criteria
+* Can detect pattern quickly
+* Can handle edge cases
+
+========================================
+END OF DAY 18
+=============
